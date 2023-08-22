@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
+export interface PF {
+  id: number;
+  slug: string;
+  name: string;
+}
+
 export interface Game {
   id: number;
   name: string;
   background_image: string;
+  platforms: { platform: PF }[];
 }
 
 interface FetchGameResponse {

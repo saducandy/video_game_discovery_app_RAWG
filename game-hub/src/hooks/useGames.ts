@@ -12,6 +12,7 @@ export interface Game {
   name: string;
   background_image: string;
   platforms: { platform: PF }[];
+  metacritic: number;
 }
 
 interface FetchGameResponse {
@@ -22,22 +23,28 @@ interface FetchGameResponse {
 const useGames = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [errors, setErrors] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
 
+    setIsLoading(true);
     apiClient
       .get<FetchGameResponse>("/games", { signal: controller.signal })
-      .then((res) => setGames(res.data.results))
+      .then((res) => {
+        setIsLoading(false);
+        setGames(res.data.results);
+      })
       .catch((err) => {
         if (err instanceof cancelIdleCallback) return;
         setErrors(err.message);
+        setIsLoading(false);
       });
 
     return () => controller.abort();
   }, []);
 
-  return { games, errors };
+  return { games, errors, isLoading };
 };
 
 export default useGames;

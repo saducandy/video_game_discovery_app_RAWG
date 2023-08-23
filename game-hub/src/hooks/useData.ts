@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
+import { CanceledError } from "axios";
 
 interface FetchData<T> {
   count: number;
@@ -22,7 +23,7 @@ const useData = <T>(endPoint: string) => {
         setData(res.data.results);
       })
       .catch((err) => {
-        if (err instanceof cancelIdleCallback) return;
+        if (err instanceof CanceledError) return;
         setErrors(err.message);
         setIsLoading(false);
       });

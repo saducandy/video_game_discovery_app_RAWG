@@ -12,7 +12,7 @@ const GridCard = ({ game }: Props) => {
     <Card>
       <Image src={game.background_image} />
       <CardBody>
-        <Heading fontSize={"2xl"}>{game.name}</Heading>
+        <Heading fontSize={"md"}>{game.name}</Heading>
         <HStack justifyContent={"space-between"}>
           <PlatfromIconList
             platform={game.platforms.map((pf) => pf.platform)}

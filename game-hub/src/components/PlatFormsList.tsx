@@ -12,8 +12,14 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import { PF } from "../hooks/useGames";
 
-const PlatFormsList = () => {
+interface Props {
+  onSelectingPF: (selectedPF: PF) => void;
+  selectedPlatFormPL: PF | null;
+}
+
+const PlatFormsList = ({ onSelectingPF, selectedPlatFormPL }: Props) => {
   const { data, errors, isLoading } = usePlatForms();
 
   if (errors) return null;
@@ -22,11 +28,15 @@ const PlatFormsList = () => {
     <div>
       <Menu>
         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-          PlatForms
+          {selectedPlatFormPL?.name || "Platforms"}
         </MenuButton>
         <MenuList>
           {data.map((pf) => (
-            <MenuItem value={pf.name} key={pf.id}>
+            <MenuItem
+              onClick={() => onSelectingPF(pf)}
+              value={pf.name}
+              key={pf.id}
+            >
               {pf.name}
             </MenuItem>
           ))}
